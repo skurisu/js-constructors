@@ -150,26 +150,21 @@ Spellcaster.prototype.invoke = function (spell,target) {
       return false;
    }
    if(spell instanceof DamageSpell && target instanceof Spellcaster){
-      
-      if(this.spendMana(spell.cost)){
-         target.inflictDamage(spell.damage);
+   // damagespell requires target   
+      if(this.spendMana(spell.cost)){ // if there's enough mana
+         target.inflictDamage(spell.damage); // inflict damage on target
          return true;
-      } else {
-         return false;
-      }
+      } 
    } 
 
-   else if(spell instanceof DamageSpell && !(target instanceof Spellcaster)){
+   if(spell instanceof DamageSpell && !(target instanceof Spellcaster)){
+   // since damage spell doesn't have a target, run regular spell
       return false;
-   }
-   else if(spell instanceof Spell) {
+   } else  {
       if(this.spendMana(spell.cost)){
-         this.health -= spell.cost;
          return true;
-      } else {
-         return false;
-      }
+      } 
    }
    
-   return false;
+    return false;
 };
